@@ -8,17 +8,19 @@ module.exports = function (config) {
 
     // frameworks to use
     // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
-    frameworks: ["jasmine"],
+    frameworks: ["jasmine", "parcel"],
 
     // list of files / patterns to load in the browser
     files: [
-      // "src/*.js",
-      "src/test/*spec.js",
-      {
-        pattern: "parcel/**/*.js",
-        watched: false,
-        included: false,
-      },
+      "./src/test/*.js",
+      "./node_modules/angular/angular.min.js",
+      "./node_modules/angular-mocks/angular-mocks.js",
+      "./src/app.js",
+      // {
+      //   pattern: "./**/!(*spec)+(.js)",
+      //   watched: false,
+      //   included: false,
+      // },
     ],
 
     // list of files / patterns to exclude
@@ -29,7 +31,10 @@ module.exports = function (config) {
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
-      "parcel/*": ["parcel"],
+      "./src/test/*.js": ["parcel"],
+      "./src/app.js": ["parcel"],
+      "./node_modules/angular-mocks/angular-mocks.js": ["parcel"],
+      "./node_modules/angular/angular.min.js": ["parcel"],
     },
 
     // test results reporter to use

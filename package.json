@@ -24,7 +24,8 @@
   "scripts": {
     "dev": "parcel index.html",
     "clean": "rm -R .cache; rm -R dist",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "reset": "rm -R .karma-parcel"
   },
   "repository": {
     "type": "git",
