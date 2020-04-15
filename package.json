@@ -1,0 +1,30 @@
+{
+  "name": "test-with-karma",
+  "version": "1.0.0",
+  "description": "",
+  "main": "karma.conf.js",
+  "dependencies": {
+    "angular": "^1.7.9",
+    "angular-mocks": "^1.7.9",
+    "babel-plugin-transform-html-import-to-string": "^0.0.1",
+    "jasmine-core": "^3.5.0",
+    "karma-chrome-launcher": "^3.1.0",
+    "karma-jasmine": "^3.1.1",
+    "karma": "^5.0.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Nabucodono5or/test-with-karma.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Nabucodono5or/test-with-karma/issues"
+  },
+  "homepage": "https://github.com/Nabucodono5or/test-with-karma#readme"
+}
