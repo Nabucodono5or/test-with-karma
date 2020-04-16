@@ -21,16 +21,22 @@ describe("Testando module: app", () => {
     appServiceObject = $injector.get('appService');
   }));
 
+
   it("Componente deve conter o titulo 'Bem vindo'", () => {
     let bindings = {};
     let componenteController = $componentController("app", null, bindings);
-
     expect(componenteController.titulo).toEqual("Bem vindo");
   });
 
   it('appService: deveria conter o valor "olá mundo"', () => {
     expect(appServiceObject.get()).toEqual("Olá mundo");
   });
+
+  it('componente app: deveria possuir hello', () => {
+    let bindings = {};
+    let componenteController = $componentController("app", null, bindings);
+    expect(componenteController.hello).toEqual("Olá mundo");
+  })
 
   // var $controller;
 
