@@ -1,4 +1,4 @@
 import angular from "angular";
-import appController from "./app.controller";
+import appComponent from './app.component';
 
-angular.module("app", []).controller("AppController", appController).name;
+angular.module("app", []).component("app", appComponent).name;
