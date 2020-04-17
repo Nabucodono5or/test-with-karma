@@ -13,6 +13,7 @@ describe("Testando module: app", () => {
   var appServiceObject;
   var $compile;
   var $rootscope;
+  var $filter;
 
   beforeEach(() => {
     angular.mock.module("app");
@@ -22,12 +23,14 @@ describe("Testando module: app", () => {
     _$componentController_,
     $injector,
     _$compile_,
-    _$rootScope_
+    _$rootScope_,
+    _$filter_
   ) => {
     $componentController = _$componentController_;
     appServiceObject = $injector.get("appService");
     $compile = _$compile_;
     $rootscope = _$rootScope_;
+    $filter = _$filter_;
   }));
 
   it("Componente deve conter o titulo 'Bem vindo'", () => {
@@ -97,7 +100,15 @@ describe("Testando module: app", () => {
     expect(element.attr('style')).toContain("background-color: blue; color: red;");
   });
 
+  it('length Filter: should return null to string "" ', () => {
+    let length = $filter('length');
+    expect(length('')).toEqual(0);
+  })
 
+  it('length Filter: should return 5 to string "power" ', () => {
+    let length = $filter('length');
+    expect(length('power')).toEqual(5);
+  })
 
   // var $controller;
 
