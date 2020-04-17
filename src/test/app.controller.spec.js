@@ -14,8 +14,27 @@ describe("Testando module: app", () => {
   var $compile;
   var $rootscope;
   var $filter;
+  var apiServiceObject;
 
   beforeEach(() => {
+    angular.mock.module(($provide) => {
+      $provide.factory("apiService", ($q) => {
+        let getData = jasmine.createSpy("getData").and.callFake(() => {
+          let itens = [];
+          let deferred = $q.defer();
+          deferred.resolve(itens);
+
+          return deferred.promise;
+        });
+
+        let service = {
+          getData: getData,
+        };
+
+        return service;
+      });
+    });
+
     angular.mock.module("app");
   });
 
@@ -24,10 +43,12 @@ describe("Testando module: app", () => {
     $injector,
     _$compile_,
     _$rootScope_,
-    _$filter_
+    _$filter_,
+    apiService
   ) => {
     $componentController = _$componentController_;
     appServiceObject = $injector.get("appService");
+    apiServiceObject = apiService;
     $compile = _$compile_;
     $rootscope = _$rootScope_;
     $filter = _$filter_;
@@ -73,20 +94,20 @@ describe("Testando module: app", () => {
     let element = $compile("<back-color color='red' back='blue'></back-color>")(
       $rootscope
     );
-    
+
     $rootscope.$digest();
-    
-    expect(element.attr('color')).toContain("red");
+
+    expect(element.attr("color")).toContain("red");
   });
 
   it("backcolor directive: should contain attribute back set to blue", () => {
     let element = $compile("<back-color color='red' back='blue'></back-color>")(
       $rootscope
     );
-    
+
     $rootscope.$digest();
-    
-    expect(element.attr('back')).toContain("blue");
+
+    expect(element.attr("back")).toContain("blue");
   });
 
   //testando atributos inseridos pela directive
@@ -94,21 +115,35 @@ describe("Testando module: app", () => {
     let element = $compile("<back-color color='red' back='blue'></back-color>")(
       $rootscope
     );
-    
+
     $rootscope.$digest();
-    
-    expect(element.attr('style')).toContain("background-color: blue; color: red;");
+
+    expect(element.attr("style")).toContain(
+      "background-color: blue; color: red;"
+    );
   });
 
   it('length Filter: should return null to string "" ', () => {
-    let length = $filter('length');
-    expect(length('')).toEqual(0);
-  })
+    let length = $filter("length");
+    expect(length("")).toEqual(0);
+  });
 
   it('length Filter: should return 5 to string "power" ', () => {
-    let length = $filter('length');
-    expect(length('power')).toEqual(5);
-  })
+    let length = $filter("length");
+    expect(length("power")).toEqual(5);
+  });
+
+  it("api Service Mock: should return undefined from method getData", () => {
+    var itens;
+
+    apiServiceObject.getData().then((result) => {
+      itens = result;
+    });
+
+    $rootscope.$digest();
+
+    expect(itens).toEqual([]);
+  });
 
   // var $controller;
 
