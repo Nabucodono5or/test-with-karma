@@ -11,16 +11,24 @@ describe("Testando jasmine", () => {
 describe("Testando module: app", () => {
   var $componentController;
   var appServiceObject;
+  var $compile;
+  var $rootscope;
 
   beforeEach(() => {
     angular.mock.module("app");
   });
 
-  beforeEach(inject((_$componentController_, $injector) => {
+  beforeEach(inject((
+    _$componentController_,
+    $injector,
+    _$compile_,
+    _$rootScope_
+  ) => {
     $componentController = _$componentController_;
-    appServiceObject = $injector.get('appService');
+    appServiceObject = $injector.get("appService");
+    $compile = _$compile_;
+    $rootscope = _$rootScope_;
   }));
-
 
   it("Componente deve conter o titulo 'Bem vindo'", () => {
     let bindings = {};
@@ -32,11 +40,21 @@ describe("Testando module: app", () => {
     expect(appServiceObject.get()).toEqual("Olá mundo");
   });
 
-  it('componente app: deveria possuir hello', () => {
+  it("componente app: deveria possuir hello", () => {
     let bindings = {};
     let componenteController = $componentController("app", null, bindings);
     expect(componenteController.hello).toEqual("Olá mundo");
-  })
+  });
+
+  it("directive: deveria replace the element with apropriate content", () => {
+    let element = $compile("<a-great-eye></a-great-eye>")($rootscope);
+    $rootscope.$digest();
+
+    expect(element.html()).toContain("teste de directive, 2 times");
+  });
+
+
+
 
   // var $controller;
 
