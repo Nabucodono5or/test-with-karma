@@ -56,15 +56,48 @@ describe("Testando module: app", () => {
   //directives com evento de click
   it("second directive: deveria increment the element", () => {
     let element = $compile("<second-directive></second-directive>")($rootscope);
-    let button = element.find('button')    
+    let button = element.find("button");
 
     $rootscope.value = 10;
-    button.triggerHandler('click');
+    button.triggerHandler("click");
+
+    $rootscope.$digest();
+
+    expect($rootscope.value).toEqual(11);
+  });
+
+  it("backcolor directive: should contain attribute color set to red", () => {
+    let element = $compile("<back-color color='red' back='blue'></back-color>")(
+      $rootscope
+    );
     
     $rootscope.$digest();
     
-    expect($rootscope.value).toEqual(11);
+    expect(element.attr('color')).toContain("red");
   });
+
+  it("backcolor directive: should contain attribute back set to blue", () => {
+    let element = $compile("<back-color color='red' back='blue'></back-color>")(
+      $rootscope
+    );
+    
+    $rootscope.$digest();
+    
+    expect(element.attr('back')).toContain("blue");
+  });
+
+  //testando atributos inseridos pela directive
+  it("backcolor directive: should contain attribute style with values set", () => {
+    let element = $compile("<back-color color='red' back='blue'></back-color>")(
+      $rootscope
+    );
+    
+    $rootscope.$digest();
+    
+    expect(element.attr('style')).toContain("background-color: blue; color: red;");
+  });
+
+
 
   // var $controller;
 
