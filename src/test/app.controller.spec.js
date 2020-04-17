@@ -46,15 +46,25 @@ describe("Testando module: app", () => {
     expect(componenteController.hello).toEqual("Olá mundo");
   });
 
+  //directives com somente inserção de template
   it("directive: deveria replace the element with apropriate content", () => {
     let element = $compile("<a-great-eye></a-great-eye>")($rootscope);
     $rootscope.$digest();
-
     expect(element.html()).toContain("teste de directive, 2 times");
   });
 
+  //directives com evento de click
+  it("second directive: deveria increment the element", () => {
+    let element = $compile("<second-directive></second-directive>")($rootscope);
+    let button = element.find('button')    
 
-
+    $rootscope.value = 10;
+    button.triggerHandler('click');
+    
+    $rootscope.$digest();
+    
+    expect($rootscope.value).toEqual(11);
+  });
 
   // var $controller;
 
