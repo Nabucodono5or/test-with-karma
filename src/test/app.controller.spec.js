@@ -9,6 +9,7 @@ describe("Testando jasmine", () => {
 });
 
 describe("Testando module: app", () => {
+  var $q;
   var $componentController;
   var appServiceObject;
   var $compile;
@@ -17,23 +18,25 @@ describe("Testando module: app", () => {
   var apiServiceObject;
 
   beforeEach(() => {
-    angular.mock.module(($provide) => {
-      $provide.factory("apiService", ($q) => {
-        let getData = jasmine.createSpy("getData").and.callFake(() => {
-          let itens = [];
-          let deferred = $q.defer();
-          deferred.resolve(itens);
+    // module $provide cria uma factory, service ou filter náo existente
+    // Caso exista o service ou factory então ele sobrescrito
 
-          return deferred.promise;
-        });
+    // angular.mock.module(($provide) => {
+    //   $provide.factory("apiService", ($q) => {
+    //     let deferred = $q.defer();
+    //     let lista = ["algo"];
+    //     deferred.resolve(lista);
+    //     let promise = deferred.promise;
 
-        let service = {
-          getData: getData,
-        };
+    //     spyOn("getData").and.returnValue(promise);
 
-        return service;
-      });
-    });
+    //     let service = {
+    //       getData: getData,
+    //     };
+
+    //     return service;
+    //   });
+    // });
 
     angular.mock.module("app");
   });
@@ -44,7 +47,8 @@ describe("Testando module: app", () => {
     _$compile_,
     _$rootScope_,
     _$filter_,
-    apiService
+    apiService,
+    _$q_
   ) => {
     $componentController = _$componentController_;
     appServiceObject = $injector.get("appService");
@@ -52,6 +56,7 @@ describe("Testando module: app", () => {
     $compile = _$compile_;
     $rootscope = _$rootScope_;
     $filter = _$filter_;
+    $q = _$q_;
   }));
 
   it("Componente deve conter o titulo 'Bem vindo'", () => {
@@ -133,16 +138,37 @@ describe("Testando module: app", () => {
     expect(length("power")).toEqual(5);
   });
 
-  it("api Service Mock: should return undefined from method getData", () => {
+  it("api Service with promise: should return undefined from method getData", () => {
     var itens;
 
     apiServiceObject.getData().then((result) => {
       itens = result;
     });
 
-    $rootscope.$digest();
+    $rootscope.$apply();
 
     expect(itens).toEqual([]);
+  });
+
+  it("api Service Mock promise with promise: should return array no null from method getData", () => {
+    let itens;
+    let deferred = $q.defer();
+    let lista = ["algo"];
+    deferred.resolve(lista);
+    let promise = deferred.promise;
+
+    // aqui estou mockando o service ainda qe ele exista
+    // Simplesmente estou pegando o service no pulo e retornando outra coisa
+    // Melhor do que criar service com o $provide
+    spyOn(apiServiceObject, "getData").and.returnValue(promise);
+
+    apiServiceObject.getData().then((result) => {
+      itens = result;
+    });
+
+    $rootscope.$apply();
+
+    expect(itens).toEqual(["algo"]);
   });
 
   // var $controller;

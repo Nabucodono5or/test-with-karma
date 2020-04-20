@@ -1,11 +1,15 @@
-function apiService() {
+function apiService($q) {
   return {
     getData: getData,
   };
 
   function getData() {
-    return "algum dado";
+    let itens = [];
+    let deferred = $q.defer();
+    deferred.resolve(itens);
+
+    return deferred.promise;
   }
 }
 
-export default apiService
+export default apiService;
