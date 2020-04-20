@@ -6,9 +6,10 @@ import secondDirective from "./app.button.directive";
 import backColorDirective from "./app.backcolor.directive";
 import lengthFilter from "./app.filter";
 import apiService from "./apiService.service";
+import componentModule from './components/component';
 
 angular
-  .module("app", [])
+  .module("app", [componentModule])
   .filter("length", lengthFilter)
   .factory("appService", appService)
   .factory("apiService", ["$q", apiService])
