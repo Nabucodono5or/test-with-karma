@@ -4,7 +4,7 @@
   "description": "",
   "main": "karma.conf.js",
   "dependencies": {
-    "angular": "^1.7.9",
+    "angular": "^1.8.0",
     "angular-mocks": "^1.7.9",
     "babel-plugin-transform-html-import-to-string": "^0.0.1",
     "jasmine-core": "^3.5.0",
